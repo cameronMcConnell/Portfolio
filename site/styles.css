@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Hack-Regular";
+    font-size: 16px;
+    color: white;
+}
+
+body {
+    width: 100vw;
+    overflow-x: hidden;
+    background-color: black;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: none;
+    box-shadow: none;
+    overflow: hidden;
+    -webkit-appearance: none; /* Remove default styling in WebKit browsers (e.g., Safari) */
+    -moz-appearance: none; /* Remove default styling in Firefox */
+    appearance: none; /* Remove default styling in modern browsers */
+}
+
+ul {
+    list-style-type: none;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+}
+
+.flex-col-gap {
+    column-gap: 16px;
+}
+
+.flex-row-gap {
+    row-gap: 16px;
+}
+
+.margin-bottom {
+    margin-bottom: 2%;
+}
+
+.default-sizing {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2%;
+}
+
+@font-face {
+    font-family: "Hack-Bold";
+    src: url("./fonts/Hack-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Hack-BoldItalic";
+    src: url("./fonts/Hack-BoldItalic.ttf");
+}
+
+@font-face {
+    font-family: "Hack-Italic";
+    src: url("./fonts/Hack-Italic.ttf");
+}
+
+@font-face {
+    font-family: "Hack-Regular";
+    src: url("./fonts/Hack-Regular.ttf");
+}

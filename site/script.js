@@ -135,12 +135,13 @@ window.addEventListener('load', () => {
         if (e.key === 'Enter') {
             parser.parseCommand(currentCli.value)
             currentCli.disabled = true
+            currentCli.removeEventListener('keyup', handleEnterKeyOnInput)
             currentCli = document.getElementsByClassName('command-line')[counter.getCount()]
             currentCli.select()
             window.scrollTo(currentCli.offsetLeft, currentCli.offsetTop)
-            currentCli.addEventListener('keyup', (e) => handleEnterKeyOnInput(e))
+            currentCli.addEventListener('keyup', handleEnterKeyOnInput)
         }
     }
 
-    currentCli.addEventListener('keyup', (e) => handleEnterKeyOnInput(e))
+    currentCli.addEventListener('keyup', handleEnterKeyOnInput)
 })

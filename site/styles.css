@@ -4,6 +4,11 @@
     font-family: "Hack-Regular";
     font-size: 16px;
     color: white;
+    cursor: text;
+}
+
+a:hover {
+    cursor: pointer;
 }
 
 body {

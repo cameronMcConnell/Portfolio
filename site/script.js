@@ -19,64 +19,40 @@ class CLICounter {
 }
 
 class CommandParser {
-    #counter
     #mainContainer
     
-    constructor(counter) {
-        this.#counter = counter
-        this.#mainContainer = document.getElementById("main-container")
+    constructor() {
+        this.counter = new CLICounter();
+        this.#mainContainer = document.getElementById("main-container");
     }
 
     parseCommand(command) {
         switch(command) {
-            case 'help':
-                this.#executeHelp()
-                break
-            case 'projects':
-                this.#executeProjects()
-                break
             case 'about':
-                this.#executeAbout()
-                break
+                this.#executeAbout();
+                break;
             case 'skills':
-                this.#executeSkills()
-                break
+                this.#executeSkills();
+                break;
+            case 'experience':
+                this.#executeExperience();
+                break;
+            case 'projects':
+                this.#executeProjects();
+                break;
             case 'contact':
-                this.#executeContact()
-                break
+                this.#executeContact();
+                break;
             case 'clear':
-                this.#executeClear()
-                break
+                this.#executeClear();
+                break;
+            case 'help':
+                this.#executeHelp();
+                break;
             default:
-                this.#executeDefault()
-                break
+                this.#executeDefault();
+                break;
         }
-    }
-
-    #executeHelp() {
-        const helpHTML =
-        `<div class="margin-bottom flex-column flex-row-gap">
-            <p> Welcome to My Developer Portfolio CLI! 👋</p>
-            <p>This interface allows you to navigate and explore my projects and experience using command-line commands.</p>
-            <p>Valid Commands:</p>
-            <ul>
-                <li><strong>help:</strong> Display this help message.</li>
-                <li><strong>projects:</strong> Show a list of my projects.</li>
-                <li><strong>about:</strong> Learn more about me.</li>
-                <li><strong>skills:</strong> View my skill set.</li>
-                <li><strong>contact:</strong> Find out how to get in touch with me.</li>
-                <li><strong>clear:</strong> Remove all previous output.</li>
-            </ul>
-            <p>Type a command to get started.</p>
-        </div>`
-
-        this.#mainContainer.insertAdjacentHTML('beforeend', helpHTML)
-
-        this.#appendCliToMainContainer()
-    }
-
-    #executeProjects() {
-        this.#appendCliToMainContainer()
     }
 
     #executeAbout() {
@@ -92,11 +68,11 @@ class CommandParser {
                 leveraging my knowledge and experience to contribute to forward-thinking tech companies 
                 and exciting new challenges.
             </p>
-        </div>`
+        </div>`;
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', aboutHTML)
+        this.#mainContainer.insertAdjacentHTML('beforeend', aboutHTML);
 
-        this.#appendCliToMainContainer()
+        this.#appendCliToMainContainer();
     }
 
     #executeSkills() {
@@ -108,11 +84,48 @@ class CommandParser {
                 <li><strong>Web Development:</strong> HTML, CSS, SCSS, Tailwind CSS, React.js, React Native, Svelte</li>
                 <li><strong>Tools & Technologies:</strong> npm, Pip, Cargo, MySQL, MongoDB, GraphQL, Git, Docker, Debian, Ubuntu, AWS, Agile</li>
             </ul>
+        </div>`;
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', skillsHTML);
+
+        this.#appendCliToMainContainer();
+    }
+
+    #executeExperience() {
+        const experienceHTML = 
+        `<div class="margin-bottom flex-column flex-row-gap">
+            <p><strong>Experience 🛠️</strong></p>
+            <ul>
+                <li><strong>Moonbeam, Tempe, AZ: Senior Capstone Project</strong></li>
+                <li>June 2023 - December 2023</li>
+                <li>- Collaborated with the CEO and CTO of a neobank startup targeting U.S. military veterans, integrating military verification using AWS services.</li>
+                <li>- Developed and deployed AWS Lambda functions in TypeScript and managed the development branch with Agile methodologies.</li>
+                <li>- Utilized Notion for project management and conducted bi-weekly sprints to adapt to changing project requirements.</li>
+            </ul>
+            <ul>
+                <li><strong>Arizona State University, Tempe, AZ: Computer Science Lead Tutor</strong></li>
+                <li>August 2022 - December 2023</li>
+                <li>- Assisted students with homework in various programming languages, including C/C++, Bash, Java, Scheme, and Prolog.</li>
+                <li>- Conducted training sessions for fellow tutors on advanced topics like Red-Black Trees and Scheme.</li>
+            </ul>
+            <ul>
+                <li><strong>Arizona State University, Tempe, AZ: Undergraduate Teaching Assistant</strong></li>
+                <li>August 2023 - December 2023</li>
+                <li>- Assisted over 50 students in CSE 450 (Analysis of Algorithms) with concepts like greedy algorithms, dynamic programming, network flows, divide and conquer, and approximation algorithms.</li>
+                <li>- Prepared exam review sessions and assisted with grading homework and exams.</li>
+                <li>- Developed skills in leadership, time management, communication, and teaching.</li>
+            </ul>
         </div>`
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', skillsHTML)
+        this.#mainContainer.insertAdjacentHTML('beforeend', experienceHTML);
 
-        this.#appendCliToMainContainer()
+        this.#appendCliToMainContainer();
+    }
+
+    #executeProjects() {
+        const projects = this.#getPinnedGithubProjects();
+
+        this.#appendCliToMainContainer();
     }
 
     #executeContact() {
@@ -124,67 +137,127 @@ class CommandParser {
                 <li><strong>LinkedIn: </strong><a href="https://linkedin.com/in/cameron-mcconnell-704b17225" target="_blank">linkedin.com/in/cameron-mcconnell</a></li>
                 <li><strong>GitHub: </strong><a href="https://github.com/cameronMcConnell" target="_blank">github.com/cameronMcConnell</a></li>
             </ul>
-        </div>`
+        </div>`;
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', contactHTML)
+        this.#mainContainer.insertAdjacentHTML('beforeend', contactHTML);
 
-        this.#appendCliToMainContainer()
+        this.#appendCliToMainContainer();
     }
 
     #executeClear() {
-        this.#counter.resetCount()
+        this.counter.resetCount();
 
         this.#mainContainer.innerHTML = 
         `<div class="margin-bottom flex-row flex-col-gap">
             <p><strong>root:~</strong>$</p>
             <input class="command-line" type="text" maxlength="8">
-        </div>`
+        </div>`;
+    }
+
+    #executeHelp() {
+        const helpHTML =
+        `<div class="margin-bottom flex-column flex-row-gap">
+            <p> Welcome to My Developer Portfolio CLI! 👋</p>
+            <p>This interface allows you to navigate and explore my projects and experience using command-line commands.</p>
+            <p>Valid Commands:</p>
+            <ul>
+                <li><strong>about:</strong> Learn more about me.</li>
+                <li><strong>skills:</strong> View my skill set.</li>
+                <li><strong>experience:</strong> See my work experience.</li>
+                <li><strong>projects:</strong> Show a list of my projects.</li>
+                <li><strong>education:</strong> Discover my academic background and qualifications.</li>
+                <li><strong>contact:</strong> Find out how to get in touch with me.</li>
+                <li><strong>help:</strong> Display this help message.</li>
+                <li><strong>clear:</strong> Remove all previous output.</li>
+            </ul>
+            <p>Type a command to get started.</p>
+        </div>`;
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', helpHTML);
+
+        this.#appendCliToMainContainer();
     }
 
     #executeDefault() {
         const defaultHTML =
         `<div class="margin-bottom">
-            <p>Invalid Command (╯°□°)╯</p>
-        </div>`
+            <p>Invalid Command 😿</p>
+        </div>`;
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', defaultHTML)
+        this.#mainContainer.insertAdjacentHTML('beforeend', defaultHTML);
 
-        this.#appendCliToMainContainer()
+        this.#appendCliToMainContainer();
     }
 
     #appendCliToMainContainer() {
         const cliHTML = 
         `<div class="margin-bottom flex-row flex-col-gap">
             <p><strong>root:~</strong>$</p>
-            <input class="command-line" type="text" maxlength="8">
-        </div>`
+            <input class="command-line" type="text" maxlength="10">
+        </div>`;
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', cliHTML)
+        this.#mainContainer.insertAdjacentHTML('beforeend', cliHTML);
 
-        this.#counter.incrementCount()
+        this.counter.incrementCount();
+    }
+
+    async #getPinnedGithubProjects() {
+        const query = `
+        {
+          user(login: "cameronMcConnell") {
+            pinnedRepositories(first: 6) {
+              nodes {
+                name
+                url
+                description
+              }
+            }
+          }
+        }
+        `;
+
+        try {
+            const response = await fetch('https://api.github.com/graphql', {
+                method: 'POST',
+                headers: {
+                    'Authorization': '',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query })
+            });
+            
+            const data = await response.json();
+
+            console.log(data);
+
+            return data;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 }
 
 window.addEventListener('load', () => {
-    const counter = new CLICounter()
+    const parser = new CommandParser();
 
-    const parser = new CommandParser(counter)
-
-    let currentCli = document.getElementsByClassName('command-line')[0]
+    let currentCli = document.getElementsByClassName('command-line')[0];
     
-    currentCli.select()
+    currentCli.select();
 
-    const handleEnterKeyOnInput = (e) => {
-        if (e.key === 'Enter') {
-            parser.parseCommand(currentCli.value)
-            currentCli.disabled = true
-            currentCli.removeEventListener('keyup', handleEnterKeyOnInput)
-            currentCli = document.getElementsByClassName('command-line')[counter.getCount()]
-            currentCli.select()
-            window.scrollTo(currentCli.offsetLeft, currentCli.offsetTop)
-            currentCli.addEventListener('keyup', handleEnterKeyOnInput)
+    window.addEventListener('click', () => { currentCli.select(); });
+
+    const handleEnterKeyOnInput = (event) => {
+        if (event.key === 'Enter') {
+            parser.parseCommand(currentCli.value);
+            currentCli.disabled = true;
+            currentCli.removeEventListener('keyup', handleEnterKeyOnInput);
+            currentCli = document.getElementsByClassName('command-line')[parser.counter.getCount()];
+            currentCli.select();
+            window.scrollTo(currentCli.offsetLeft, currentCli.offsetTop);
+            currentCli.addEventListener('keyup', handleEnterKeyOnInput);
         }
     }
 
-    currentCli.addEventListener('keyup', handleEnterKeyOnInput)
-})
+    currentCli.addEventListener('keyup', handleEnterKeyOnInput);
+});

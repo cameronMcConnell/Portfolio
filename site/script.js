@@ -40,6 +40,9 @@ class CommandParser {
             case 'projects':
                 this.#executeProjects();
                 break;
+            case 'education':
+                this.#executeEducation();
+                break;
             case 'contact':
                 this.#executeContact();
                 break;
@@ -124,6 +127,23 @@ class CommandParser {
 
     #executeProjects() {
         const projects = this.#getPinnedGithubProjects();
+
+        this.#appendCliToMainContainer();
+    }
+
+    #executeEducation() {
+        const educationHTML = 
+        `<div class="margin-bottom flex-column flex-row-gap">
+            <p><strong>Education 🧑‍🎓</strong></p>
+            <ul>
+                <li><strong>B.S. Computer Science</strong></li>
+                <li>August 2019 - December 2023</li>
+                <li>Arizona State University, Tempe, AZ</li>
+                <li>3.75 GPA</li>
+            </ul>
+        </div>`;
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', educationHTML);
 
         this.#appendCliToMainContainer();
     }

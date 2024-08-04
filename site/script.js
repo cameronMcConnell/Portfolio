@@ -117,18 +117,20 @@ class CommandParser {
 
         this.#mainContainer.insertAdjacentHTML('beforeend', '<p><strong>Projects 🚧</strong></p>');
 
+        let projectHTML = `<div class="margin-bottom flex-column flex-row-gap">`
+
         nodes.array.forEach(node => {
-            const projectHTML =
-            `<div class="margin-bottom flex-column flex-row-gap">
-                <ul>
-                    <li><strong>${node.name}</strong></li>
-                    <li>- ${node.description}</li>
-                    <li>- ${node.url}</li>
-                </ul>
-            </div>`;
-            
-            this.#mainContainer.insertAdjacentHTML('beforeend', projectHTML);
+            projectHTML +=
+            `<ul>
+                <li><strong>${node.name}</strong></li>
+                <li>- ${node.description}</li>
+                <li>- ${node.url}</li>
+            </ul>`;
         });
+
+        projectHTML += '</div>';
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', projectHTML);
 
         this.#appendCliToMainContainer();
     }

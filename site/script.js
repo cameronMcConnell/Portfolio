@@ -1,28 +1,9 @@
-class CLICounter {
-    #count
-
-    constructor() {
-        this.#count = 0
-    }
-
-    incrementCount() {
-        this.#count++
-    }
-
-    resetCount() {
-        this.#count = 0
-    }
-
-    getCount() {
-        return this.#count
-    }
-}
-
 class CommandParser {
+    #cliCount
     #mainContainer
     
     constructor() {
-        this.counter = new CLICounter();
+        this.#cliCount = 0;
         this.#mainContainer = document.getElementById("main-container");
     }
 
@@ -56,6 +37,10 @@ class CommandParser {
                 this.#executeDefault();
                 break;
         }
+    }
+
+    getCliCount() {
+        return this.#cliCount;
     }
 
     #executeAbout() {
@@ -128,6 +113,23 @@ class CommandParser {
     #executeProjects() {
         const projects = this.#getPinnedGithubProjects();
 
+        const nodes = projects.data.user.pinnedItems.nodes;
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', '<p><strong>Projects 🚧</strong></p>');
+
+        nodes.array.forEach(node => {
+            const projectHTML =
+            `<div class="margin-bottom flex-column flex-row-gap">
+                <ul>
+                    <li><strong>${node.name}</strong></li>
+                    <li>- ${node.description}</li>
+                    <li>- ${node.url}</li>
+                </ul>
+            </div>`;
+            
+            this.#mainContainer.insertAdjacentHTML('beforeend', projectHTML);
+        });
+
         this.#appendCliToMainContainer();
     }
 
@@ -165,7 +167,7 @@ class CommandParser {
     }
 
     #executeClear() {
-        this.counter.resetCount();
+        this.#cliCount = 0;
 
         this.#mainContainer.innerHTML = 
         `<div class="margin-bottom flex-row flex-col-gap">
@@ -218,37 +220,14 @@ class CommandParser {
 
         this.#mainContainer.insertAdjacentHTML('beforeend', cliHTML);
 
-        this.counter.incrementCount();
+        this.#cliCount++;
     }
 
     async #getPinnedGithubProjects() {
-        const query = `
-        {
-          user(login: "cameronMcConnell") {
-            pinnedRepositories(first: 6) {
-              nodes {
-                name
-                url
-                description
-              }
-            }
-          }
-        }
-        `;
-
         try {
-            const response = await fetch('https://api.github.com/graphql', {
-                method: 'POST',
-                headers: {
-                    'Authorization': '',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ query })
-            });
+            const response = await fetch('https://cameronmcconnell.net/projects');
             
             const data = await response.json();
-
-            console.log(data);
 
             return data;
         } catch (error) {
@@ -272,7 +251,7 @@ window.addEventListener('load', () => {
             parser.parseCommand(currentCli.value);
             currentCli.disabled = true;
             currentCli.removeEventListener('keyup', handleEnterKeyOnInput);
-            currentCli = document.getElementsByClassName('command-line')[parser.counter.getCount()];
+            currentCli = document.getElementsByClassName('command-line')[parser.getCliCount()];
             currentCli.select();
             window.scrollTo(currentCli.offsetLeft, currentCli.offsetTop);
             currentCli.addEventListener('keyup', handleEnterKeyOnInput);

@@ -116,11 +116,11 @@ class CommandParser {
 
             const nodes = projects.data.user.pinnedItems.nodes;
 
-            this.#mainContainer.insertAdjacentHTML('beforeend', '<p><strong>Projects 🚧</strong></p>');
+            let projectHTML = 
+            `<div class="margin-bottom flex-column flex-row-gap">
+                <p><strong>Projects 🚧</strong></p>`;
 
-            let projectHTML = '<div class="margin-bottom flex-column flex-row-gap">';
-
-            nodes.array.forEach(node => {
+            nodes.forEach(node => {
                 projectHTML +=
                 `<ul>
                     <li><strong>${node.name}</strong></li>

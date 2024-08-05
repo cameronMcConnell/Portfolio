@@ -7,7 +7,7 @@ class CommandParser {
         this.#mainContainer = document.getElementById("main-container");
     }
 
-    parseCommand(command) {
+    async parseCommand(command) {
         switch(command) {
             case 'about':
                 this.#executeAbout();
@@ -19,7 +19,7 @@ class CommandParser {
                 this.#executeExperience();
                 break;
             case 'projects':
-                this.#executeProjects();
+                await this.#executeProjects();
                 break;
             case 'education':
                 this.#executeEducation();
@@ -125,7 +125,7 @@ class CommandParser {
                 `<ul>
                     <li><strong>${node.name}</strong></li>
                     <li>- ${node.description}</li>
-                    <li>- ${node.url}</li>
+                    <li>- <a href="${node.url}" target="_blank">${node.url}</a></li>
                 </ul>`;
             });
 
@@ -252,11 +252,11 @@ window.addEventListener('load', () => {
 
     window.addEventListener('click', () => { currentCli.select(); });
 
-    const handleEnterKeyOnInput = (event) => {
+    const handleEnterKeyOnInput = async (event) => {
         if (event.key === 'Enter') {
-            parser.parseCommand(currentCli.value);
             currentCli.disabled = true;
             currentCli.removeEventListener('keyup', handleEnterKeyOnInput);
+            await parser.parseCommand(currentCli.value);
             currentCli = document.getElementsByClassName('command-line')[parser.getCliCount()];
             currentCli.select();
             window.scrollTo(currentCli.offsetLeft, currentCli.offsetTop);

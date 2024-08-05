@@ -110,29 +110,33 @@ class CommandParser {
         this.#appendCliToMainContainer();
     }
 
-    #executeProjects() {
-        const projects = this.#getPinnedGithubProjects();
+    async #executeProjects() {
+        try {
+            const projects = await this.#getPinnedGithubProjects();
 
-        const nodes = projects.data.user.pinnedItems.nodes;
+            const nodes = projects.data.user.pinnedItems.nodes;
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', '<p><strong>Projects 🚧</strong></p>');
+            this.#mainContainer.insertAdjacentHTML('beforeend', '<p><strong>Projects 🚧</strong></p>');
 
-        let projectHTML = `<div class="margin-bottom flex-column flex-row-gap">`
+            let projectHTML = '<div class="margin-bottom flex-column flex-row-gap">';
 
-        nodes.array.forEach(node => {
-            projectHTML +=
-            `<ul>
-                <li><strong>${node.name}</strong></li>
-                <li>- ${node.description}</li>
-                <li>- ${node.url}</li>
-            </ul>`;
-        });
+            nodes.array.forEach(node => {
+                projectHTML +=
+                `<ul>
+                    <li><strong>${node.name}</strong></li>
+                    <li>- ${node.description}</li>
+                    <li>- ${node.url}</li>
+                </ul>`;
+            });
 
-        projectHTML += '</div>';
+            projectHTML += '</div>';
 
-        this.#mainContainer.insertAdjacentHTML('beforeend', projectHTML);
+            this.#mainContainer.insertAdjacentHTML('beforeend', projectHTML);
 
-        this.#appendCliToMainContainer();
+            this.#appendCliToMainContainer();
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     #executeEducation() {
@@ -228,7 +232,7 @@ class CommandParser {
     async #getPinnedGithubProjects() {
         try {
             const response = await fetch('https://cameronmcconnell.net/projects');
-            
+
             const data = await response.json();
 
             return data;

@@ -27,6 +27,9 @@ class CommandParser {
             case 'contact':
                 this.#executeContact();
                 break;
+            case 'snake':
+                await this.#executeSnake();
+                break;
             case 'clear':
                 this.#executeClear();
                 break;
@@ -172,6 +175,31 @@ class CommandParser {
         this.#appendCliToMainContainer();
     }
 
+    async #executeSnake() {
+        const snakeContainerId = `snake-container${this.#cliCount}`;
+        const snakeHTML = 
+        `<div class="margin-bottom flex-column">
+            <p><strong>Controls: ↑, →, ↓, ←</strong></p>
+            <div id="${snakeContainerId}"></div>
+        </div>`;
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', snakeHTML);
+
+        const snakeGame = new SnakeGame( document.getElementById(snakeContainerId) );
+
+        await snakeGame.startGame();
+
+        const gameOverHTML = 
+        `<div class="margin-bottom flex-column">
+            <p><strong>Game Over</strong></p>
+            <p><strong>Score: </strong>${snakeGame.getScore()}</p>
+        </div>`;
+
+        this.#mainContainer.insertAdjacentHTML('beforeend', gameOverHTML);
+
+        this.#appendCliToMainContainer();
+    }
+
     #executeClear() {
         this.#cliCount = 0;
 
@@ -195,6 +223,7 @@ class CommandParser {
                 <li><strong>projects:</strong> Show a list of my projects.</li>
                 <li><strong>education:</strong> Discover my academic background and qualifications.</li>
                 <li><strong>contact:</strong> Find out how to get in touch with me.</li>
+                <li><strong>snake:</strong> Play a classic ascii Snake game that I implemented.</li>
                 <li><strong>help:</strong> Display this help message.</li>
                 <li><strong>clear:</strong> Remove all previous output.</li>
             </ul>

@@ -1,10 +1,12 @@
 class CommandParser {
     #cliCount
     #mainContainer
-    
+    #rateGuardJS
+
     constructor() {
         this.#cliCount = 0;
         this.#mainContainer = document.getElementById("main-container");
+        this.#rateGuardJS = new RateGuardJS(3, 1, 5);
     }
 
     async parseCommand(command) {
@@ -259,11 +261,16 @@ class CommandParser {
     }
 
     async #getPinnedGithubProjects() {
+        async function requestHandler(url, params) {
+            const response = await fetch(url, params);
+            return response.json();
+        }
+        
+        const url = 'https://cameronmcconnell.net/projects';
+        const params = { method: 'GET' };
+
         try {
-            const response = await fetch('https://cameronmcconnell.net/projects');
-
-            const data = await response.json();
-
+            const data = await this.#rateGuardJS.sendRequest(url, params, requestHandler);
             return data;
         } catch (error) {
             console.error(error);

@@ -30,7 +30,7 @@ class RateGuardJS {
         this.#urlTotalRequests[url] += 1;
         this.#saveUrlTotalRequests();
 
-        if (this.#urlTotalRequests[url] >= this.totalAllowedRequests) {
+        if (this.#urlTotalRequests[url] > this.totalAllowedRequests) {
             await this.#delay(this.timeoutMinutes * 60 * 1000);
         }
 

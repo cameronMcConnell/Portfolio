@@ -6,7 +6,7 @@ class CommandParser {
     constructor() {
         this.#cliCount = 0;
         this.#mainContainer = document.getElementById("main-container");
-        this.#rateGuardJS = new RateGuardJS(3, 1, 5);
+        this.#rateGuardJS = new RateGuardJS(3, 1, 2);
     }
 
     async parseCommand(command) {

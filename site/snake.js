@@ -1,5 +1,5 @@
 const GRID_SIZE = 27;
-const GAME_SPEED = 175;
+const GAME_SPEED = 125;
 
 class SnakeGame {
     #gameContainer
@@ -146,17 +146,25 @@ class SnakeGame {
         switch (event.key) {
             case 'ArrowDown':
                 event.preventDefault();
-                this.#playerDirection = this.#directions[0];
+                if (this.#playerDirection !== this.#directions[1]) {
+                    this.#playerDirection = this.#directions[0];
+                }
                 break;
-            case 'ArrowUp':
+            case 'ArrowUp':    
                 event.preventDefault();
-                this.#playerDirection = this.#directions[1];
+                if (this.#playerDirection !== this.#directions[0]) {
+                    this.#playerDirection = this.#directions[1];
+                }
                 break;
             case 'ArrowRight':
-                this.#playerDirection = this.#directions[2];
+                if (this.#playerDirection !== this.#directions[3]) {
+                    this.#playerDirection = this.#directions[2];
+                }
                 break;
             case 'ArrowLeft':
-                this.#playerDirection = this.#directions[3];
+                if (this.#playerDirection !== this.#directions[2]) {    
+                    this.#playerDirection = this.#directions[3];
+                }
                 break;
             default:
                 break;

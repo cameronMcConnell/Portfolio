@@ -17,7 +17,7 @@ class SnakeGame {
         this.#gameContainer = gameContainer;
         this.#gameOver = false;
         this.#gameInterval;
-        this.#snakeBody = [this.#getRandomIntInclusivePair(3, GRID_SIZE - 4)];
+        this.#snakeBody = [this.#getRandomIntInclusivePair(6, GRID_SIZE - 7)];
         this.#previousSnakeTail = this.#snakeBody[0];
         this.#directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
         this.#playerDirection = this.#directions[this.#getRandomIntInclusive(0, 3)];
